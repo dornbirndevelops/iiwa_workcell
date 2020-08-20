@@ -1,5 +1,6 @@
 <launch>
     <arg name="sim" default="true" doc="sim or real" />
+    <arg name="bag" default="true" />
 
     <!-- accumulate range messages to pointcloud2 messages -->
     <node name="range_to_pointcloud2_converter" pkg="iiwa_workcell_sensor" type="range_to_pointcloud2_converter.py" output="screen">
@@ -9,11 +10,18 @@
     </node>
 
     <group if="$(arg sim)">
-        <!-- Publish fake range data to simulate sensors -->
-        <node name="range_faker" pkg="iiwa_workcell_sensor" type="range_faker.py" output="screen">
-            <rosparam param="frames_in" >[sensor_2_front,sensor_2_left,sensor_2_back,sensor_2_right,sensor_4_front,sensor_4_left,sensor_4_back,sensor_4_right,sensor_6_front_left,sensor_6_front_right]</rosparam>
-            <param name="topic_out" value="sensor_data"/>
-        </node>
+        <group if="$(arg bag)">
+            <!-- Publish pre-recorded camera depth image -->
+            <arg name="rosbag_file" default="$(find iiwa_workcell_sensor)/bag/obstacles.bag" />
+            <node pkg="rosbag" type="play" name="bag_player" output="screen" args="-l $(arg rosbag_file) " />
+        </group>
+        <group unless="$(arg bag)">
+            <!-- Publish fake range data -->
+            <node name="range_faker" pkg="iiwa_workcell_sensor" type="range_faker.py" output="screen">
+                <rosparam param="frames_in" >[sensor_2_front,sensor_2_left,sensor_2_back,sensor_2_right,sensor_4_front,sensor_4_left,sensor_4_back,sensor_4_right,sensor_6_front_left,sensor_6_front_right]</rosparam>
+                <param name="topic_out" value="sensor_data"/>
+            </node>
+        </group>
     </group>
     <group unless="$(arg sim)">
         <!-- Publish real range messages (note that this must run on the ros master) -->
