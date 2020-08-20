@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>iiwa_workcell_sensor</name>
+  <version>1.0.0</version>
+  <description>
+    The iiwa_workcell_sensor package contains code to generate PointCloud2 messages from Range messages
+  </description>
+  <maintainer email="alexander.dengg@students.fhv.at">Alexander Dengg</maintainer>
+  <license>BSD</license>
+  <url type="repository">https://github.com/dornbirndevelops/iiwa_workcell</url>
+  <author email="alexander.dengg@students.fhv.at">Alexander Dengg</author>
+  <depend>rospy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>tf</depend>
+  <exec_depend>rosserial_server</exec_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

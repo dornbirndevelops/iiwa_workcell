@@ -1,0 +1,15 @@
+<launch>
+    <arg name="sim" default="true" doc="sim or real" />
+    <arg name="ns" default="iiwa" doc="namespace name" />
+
+    <group ns="$(arg ns)">
+        <include file="$(find iiwa_workcell_moveit_config)/launch/bringup.launch">
+            <arg name="sim" value="$(arg sim)" />
+            <arg name="ns" value="$(arg ns)" />
+        </include>
+
+        <include file="$(find iiwa_workcell_sensor)/launch/bringup.launch">
+            <arg name="sim" value="$(arg sim)" />
+        </include>
+    </group>
+</launch>

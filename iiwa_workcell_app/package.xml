@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>iiwa_workcell_app</name>
+  <version>1.0.0</version>
+  <description>
+    The iiwa_workcell_app package contains the applications meant to run
+  </description>
+  <maintainer email="alexander.dengg@students.fhv.at">Alexander Dengg</maintainer>
+  <license>BSD</license>
+  <url type="repository">https://github.com/dornbirndevelops/iiwa_workcell</url>
+  <author email="alexander.dengg@students.fhv.at">Alexander Dengg</author>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>iiwa_workcell_moveit_config</exec_depend>
+  <exec_depend>iiwa_workcell_sensor</exec_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

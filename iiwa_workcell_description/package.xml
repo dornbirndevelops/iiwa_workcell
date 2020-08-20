@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>iiwa_workcell_description</name>
+  <version>1.0.0</version>
+  <description>
+    The iiwa_workcell_description package contains the URDF of the workcell
+  </description>
+  <maintainer email="alexander.dengg@students.fhv.at">Alexander Dengg</maintainer>
+  <license>BSD</license>
+  <url type="repository">https://github.com/dornbirndevelops/iiwa_workcell</url>
+  <author email="alexander.dengg@students.fhv.at">Alexander Dengg</author>
+  <depend>xacro</depend>
+  <depend>iiwa_description</depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="iiwa">
+    <xacro:include filename="$(find iiwa_description)/urdf/materials.xacro" />
+    <xacro:include filename="$(find iiwa_description)/urdf/iiwa7.xacro" />
+    <xacro:include filename="$(find iiwa_workcell_description)/robots/sensor.xacro" />
+
+    <xacro:arg name="hardware_interface" default="PositionJointInterface" />
+    <xacro:arg name="robot_name" default="iiwa" />
+    <xacro:arg name="origin_xyz" default="0 0 0" />
+    <xacro:arg name="origin_rpy" default="0 0 0" />
+
+    <!-- Fix to world (we ignore the table the robot is mounted on for now) -->
+    <link name="world" />
+
+    <!-- TODO: add base here -->
+
+    <!-- iiwa -->
+    <xacro:iiwa7 hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="world">
+        <origin xyz="$(arg origin_xyz)" rpy="$(arg origin_rpy)" />
+    </xacro:iiwa7>
+
+    <!-- sensors -->
+    <xacro:sensor parent="$(arg robot_name)_link_2" child="sensor_2_front">
+        <origin xyz="-0.08 0.20 0" rpy="${PI / 2} 0 ${PI}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_2" child="sensor_2_left">
+        <origin xyz="0 0.20 -0.08" rpy="0 ${PI / 2} ${PI / 2}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_2" child="sensor_2_back">
+        <origin xyz="0.08 0.20 0" rpy="${-PI / 2} 0 0" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_2" child="sensor_2_right">
+        <origin xyz="0 0.20 0.08" rpy="0 ${-PI / 2} ${-PI / 2}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_4" child="sensor_4_front">
+        <origin xyz="0.08 0.20 0" rpy="${-PI / 2} 0 0" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_4" child="sensor_4_left">
+        <origin xyz="0 0.20 -0.08" rpy="0 ${PI / 2} ${PI / 2}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_4" child="sensor_4_back">
+        <origin xyz="-0.08 0.20 0" rpy="${PI / 2} 0 ${PI}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_4" child="sensor_4_right">
+        <origin xyz="0 0.20 0.08" rpy="0 ${-PI / 2} ${-PI / 2}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_6" child="sensor_6_front_left">
+        <origin xyz="-0.05 0.075 0.025" rpy="${PI / 180 * 87.5} ${PI / 180 * 45} ${PI / 180 * 175}" />
+    </xacro:sensor>
+    <xacro:sensor parent="$(arg robot_name)_link_6" child="sensor_6_front_right">
+        <origin xyz="-0.035 0.075 0.115" rpy="${PI / 180 * 93.5} ${PI / 180 * -50} ${PI / 180 * 175}" />
+    </xacro:sensor>
+
+    <!-- TODO: add tool here -->
+</robot> 

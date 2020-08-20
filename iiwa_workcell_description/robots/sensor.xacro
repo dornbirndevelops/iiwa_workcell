@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sensor">
+    <xacro:macro name="sensor" params="parent child *origin">
+        <joint name="${parent}__${child}_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${child}"/>
+            <xacro:insert_block name="origin"/>
+        </joint>
+        <link name="${child}" />
+    </xacro:macro>
+</robot>

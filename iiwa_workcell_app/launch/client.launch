@@ -1,0 +1,10 @@
+<launch>
+    <arg name="ns" default="iiwa" doc="namespace name" />
+
+    <!-- rviz -->
+    <group ns="$(arg ns)">
+        <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="-d $(find iiwa_workcell_app)/launch/client.rviz" output="screen">
+            <rosparam command="load" file="$(find iiwa_workcell_moveit_config)/config/kinematics.yaml"/>
+        </node>
+    </group>
+</launch>

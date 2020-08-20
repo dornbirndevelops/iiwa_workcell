@@ -1,0 +1,47 @@
+<launch>
+    <arg name="sim" default="true" doc="sim or real" />
+    <arg name="ns" default="iiwa" doc="namespace name" />
+    <arg name="pipeline" default="ompl" doc="planning pipeline to use"/>
+
+    <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+    <include file="$(find iiwa_workcell_moveit_config)/launch/planning_context.launch">
+        <arg name="load_robot_description" value="true" />
+        <arg name="robot_name" value="$(arg ns)" />
+    </include>
+
+    <!-- Load Joint States / Controllers -->
+    <group if="$(arg sim)">
+        <!-- We do not have a robot connected, so publish fake joint states -->
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+            <rosparam param="source_list">[move_group/fake_controller_joint_states]</rosparam>
+        </node>
+
+        <!-- Given the published joint states, publish tf for the robot links -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+    </group>
+    <group unless="$(arg sim)">
+        <!-- We do have a robot connected, so use real joint states -->
+        <arg name="hardware_interface" default="PositionJointInterface" />
+        <arg name="model" default="iiwa7" />
+        
+        <!-- Load controllers accordingly to parameters -->
+        <include file="$(find iiwa_control)/launch/iiwa_control.launch">
+            <arg name="hardware_interface" value="$(arg hardware_interface)" />
+            <arg name="controllers" value="joint_state_controller $(arg hardware_interface)_trajectory_controller" />
+            <arg name="robot_name" value="$(arg ns)" />
+            <arg name="model" value="$(arg model)" />
+        </include>
+
+        <!-- Robot interface -->
+        <include file="$(find iiwa_hw)/launch/iiwa_hw.launch" >
+            <arg name="hardware_interface" value="$(arg hardware_interface)" />
+        </include>
+    </group>
+
+    <!-- Load move group -->
+    <include file="$(find iiwa_workcell_moveit_config)/launch/move_group.launch">
+        <arg name="fake_execution" value="$(arg sim)"/>
+        <arg name="info" value="true"/>
+        <arg name="pipeline" value="$(arg pipeline)"  />
+    </include>
+</launch>
