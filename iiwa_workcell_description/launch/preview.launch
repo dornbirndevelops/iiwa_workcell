@@ -1,0 +1,14 @@
+<launch>
+  <!-- This lauch file just loads the URDF with the given hardware interface and robot name into the ROS Parameter Server -->
+  <arg name="hardware_interface" default="PositionJointInterface"/> 
+  <arg name="robot_name" default="iiwa"/>
+  <!-- load the description -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find iiwa_workcell_description)/robots/iiwa_workcell.urdf.xacro' hardware_interface:=$(arg hardware_interface) robot_name:=$(arg robot_name)" />
+
+  <!-- publish the tf tree of static and revolute joints -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- visualize model -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find iiwa_workcell_description)/launch/config.rviz" />  
+</launch>
